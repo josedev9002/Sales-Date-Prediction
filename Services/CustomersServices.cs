@@ -1,5 +1,6 @@
 ﻿using Sales_Date_Prediction_.DTO_s;
 using Sales_Date_Prediction_.Interfaces;
+using Sales_Date_Prediction_.Utilidades;
 
 namespace Sales_Date_Prediction_.Services
 {
@@ -15,7 +16,7 @@ namespace Sales_Date_Prediction_.Services
         public IEnumerable<CustomerDatePredictionDTO> GetCustomerDatePrediction()
         {
             var getAllCusDatePrediction = _customerRepository.GetAll();
-            if(getAllCusDatePrediction == null)
+            if (getAllCusDatePrediction == null)
             {
                 return Enumerable.Empty<CustomerDatePredictionDTO>();
             }

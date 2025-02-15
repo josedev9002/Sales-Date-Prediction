@@ -35,12 +35,22 @@ builder.Services.AddScoped<IRepository<EmployeesDTO>, EmployeesRepository>();
 builder.Services.AddScoped<IRepository<Shipper>, ShippersRepository>();
 builder.Services.AddScoped<IRepository<Product>, ProductsRepository>();
 
-
+//Servicio para optimización con caché
+builder.Services.AddOutputCache(opciones =>
+                                opciones.DefaultExpirationTimeSpan = TimeSpan.FromHours(1));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//definición de middleware del cors
+builder.Services.AddCors(opciones =>
+                        opciones.AddDefaultPolicy(opcionesCors =>
+                        {
+                            opcionesCors.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+                                                                  .WithExposedHeaders("antidad-Total-Registros");
+                        }));
 
 var app = builder.Build();
 

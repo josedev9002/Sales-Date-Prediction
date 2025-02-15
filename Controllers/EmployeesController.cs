@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Sales_Date_Prediction_.DTO_s;
 using Sales_Date_Prediction_.Interfaces;
 
 namespace Sales_Date_Prediction_.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/employees")]
     [ApiController]
     public class EmployeesController : Controller
     {
@@ -14,7 +15,8 @@ namespace Sales_Date_Prediction_.Controllers
             _employeesServices = employeesServices;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllEmployees")]
+        [OutputCache]
         public ActionResult<IEnumerable<EmployeesDTO>> GetAllEmployees()
         {
             var employes = _employeesServices.GetAllEmployees();

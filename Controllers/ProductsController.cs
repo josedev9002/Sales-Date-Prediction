@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Sales_Date_Prediction_.DTO_s;
 using Sales_Date_Prediction_.Interfaces;
 
 namespace Sales_Date_Prediction_.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products")]
     [ApiController]
     public class ProductsController : Controller
     {
@@ -13,7 +14,8 @@ namespace Sales_Date_Prediction_.Controllers
         {
             _productsServices = productsServices;   
         }
-        [HttpGet]
+        [HttpGet("GetProducts")]
+        [OutputCache]
         public ActionResult<IEnumerable<ProductsDTO>> GetProducts()
         {
             var products = _productsServices.GetAllProducts();

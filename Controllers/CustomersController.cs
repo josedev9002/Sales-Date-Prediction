@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Sales_Date_Prediction_.DTO_s;
 using Sales_Date_Prediction_.Interfaces;
+using Sales_Date_Prediction_.Utilidades;
 
 namespace Sales_Date_Prediction_.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/customers")]
     [ApiController]
-    public class CustomersController : Controller
+    public class CustomersController : ControllerBase
     {
         private readonly ICustomerServices _customerServices;
 
@@ -15,17 +17,20 @@ namespace Sales_Date_Prediction_.Controllers
             _customerServices = customerServices;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<CustomerDatePredictionDTO>> GetCustomerDatePredictions()
+        [HttpGet("GetCustomerDatePrediction")]
+        [OutputCache]
+        public async Task<ActionResult<IEnumerable<CustomerDatePredictionDTO>>> GetCustomerDatePredictions([FromQuery] PaginacionDTO paginacionDTO)
         {
             IEnumerable<CustomerDatePredictionDTO> customerDatePredictions = _customerServices.GetCustomerDatePrediction();
-            if(customerDatePredictions == null)
+            var resul = customerDatePredictions.Paginar(paginacionDTO);
+            await HttpContext.InsertarParametrosPaginacionCabecera(customerDatePredictions);
+            if (customerDatePredictions == null)
             {
                 return NotFound();
             }
             else
             {
-                return Ok(customerDatePredictions);
+                return Ok(resul);
             }
         }
 

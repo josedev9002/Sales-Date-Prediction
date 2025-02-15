@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Sales_Date_Prediction_.Interfaces;
 using Sales_Date_Prediction_.Models;
 
 namespace Sales_Date_Prediction_.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/shippers")]
     [ApiController]
     public class ShippersController : Controller
     {
@@ -14,7 +15,8 @@ namespace Sales_Date_Prediction_.Controllers
             _shippersServices = shippersServices;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllShippers")]
+        [OutputCache]
         public ActionResult<IEnumerable<Shipper>> GetAllShippers()
         {
             var shippers = _shippersServices.GetAllShippers();
