@@ -22,7 +22,7 @@ namespace Sales_Date_Prediction_.Controllers
         public async Task<ActionResult<IEnumerable<CustomerDatePredictionDTO>>> GetCustomerDatePredictions([FromQuery] PaginacionDTO paginacionDTO)
         {
             IEnumerable<CustomerDatePredictionDTO> customerDatePredictions = _customerServices.GetCustomerDatePrediction();
-            var resul = customerDatePredictions.Paginar(paginacionDTO);
+            var resul = customerDatePredictions.Paginar(paginacionDTO).OrderByDescending(opc => opc.NextPredictedOrder);
             await HttpContext.InsertarParametrosPaginacionCabecera(customerDatePredictions);
             if (customerDatePredictions == null)
             {
